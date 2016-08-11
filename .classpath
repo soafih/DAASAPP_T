@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="main"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Java-Jason/java-json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/aopalliance-repackaged-2.4.0-b34.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/asm-debug-all-5.0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/hk2-api-2.4.0-b34.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/hk2-locator-2.4.0-b34.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/hk2-utils-2.4.0-b34.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/javassist-3.18.1-GA.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/javax.annotation-api-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/javax.inject-2.4.0-b34.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/javax.servlet-api-3.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/javax.ws.rs-api-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/jaxb-api-2.2.7.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/jersey-client.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/jersey-common.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/jersey-container-servlet.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/jersey-container-servlet-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/jersey-guava-2.23.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/jersey-media-jaxb.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/jersey-server.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/org.osgi.core-4.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/osgi-resource-locator-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/persistence-api-1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/validation-api-1.1.0.Final.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/new sun servlet/com.sun.jersey.jersey-server-1.4.0.jar/com.sun.jersey.jersey-server-1.4.0.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
