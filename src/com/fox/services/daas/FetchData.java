@@ -1,6 +1,6 @@
 package com.fox.services.daas;
 
-import java.sql.ResultSet;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.ws.rs.Consumes;
@@ -16,8 +16,14 @@ import org.json.JSONObject;
 
 import com.fox.services.daas.util.DAASAppUtil;
 
+import net.spy.memcached.AddrUtil;
+import net.spy.memcached.MemcachedClient;
+
 @Path("/")
 public class FetchData {
+
+	String query = DAASAppUtil.getProperty("Query");
+	String cacheKey = DAASAppUtil.getProperty("Application");
 
 	@GET
 	// @Path("/FetchData")
@@ -27,15 +33,35 @@ public class FetchData {
 
 		String result = "";
 		int statusCode = 200;
+		JSONObject resultJson = null;
 
 		try {
-			String query = formQuery(info);
-			JSONObject resultJson = DatabaseProxy.executeQuery(query);
+
+			formQuery(info);
+
+			System.out.println("**********Query*********" + query);
+			System.out.println("**********CacheKey*******" + cacheKey);
+
+			MemcachedClient memcachedClient = new MemcachedClient(
+					AddrUtil.getAddresses(System.getenv("MEMCACHED_URL")));
+			Object queryOutput = memcachedClient.get(cacheKey);
+			if (queryOutput == null) {
+				
+				resultJson = DatabaseProxy.executeQuery(query);
+				memcachedClient.add(cacheKey, Integer.parseInt(System.getenv("MEMCACHED_EXPIRY(SEC)")), resultJson);
+
+			}
+
+			else {
+				System.out.println("**********Fetching from Cache*********");
+				resultJson = (JSONObject) queryOutput;
+			}
+
 			result = resultJson.toString();
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			JSONObject resultJson = getErrorJson(ex);
+			resultJson = getErrorJson(ex);
 			result = resultJson.toString();
 			statusCode = 501;
 
@@ -44,10 +70,8 @@ public class FetchData {
 		return Response.status(statusCode).entity(result).build();
 	}
 
-	private String formQuery(UriInfo info) throws Exception {
-
-		String query = DAASAppUtil.getProperty("Query");
-
+	private void formQuery(UriInfo info) throws Exception {
+		String bindVal = null;
 		Pattern patt = Pattern.compile("#[a-zA-Z0-9_]*#");
 		Matcher m = patt.matcher(query);
 		StringBuffer sb = new StringBuffer(query.length());
@@ -58,11 +82,12 @@ public class FetchData {
 			if (info.getQueryParameters().getFirst(text) == null) {
 				throw new Exception("Parameter : " + text + " is not passed");
 			}
-
-			m.appendReplacement(sb, info.getQueryParameters().getFirst(text));
+			bindVal = info.getQueryParameters().getFirst(text);
+			cacheKey = cacheKey + "_" + bindVal;
+			m.appendReplacement(sb, bindVal);
 		}
 		m.appendTail(sb);
-		return (sb.toString());
+		return;
 
 	}
 

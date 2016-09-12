@@ -32,5 +32,6 @@
 	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Jersy+jaxws/validation-api-1.1.0.Final.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/new sun servlet/com.sun.jersey.jersey-server-1.4.0.jar/com.sun.jersey.jersey-server-1.4.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rakshithas/Desktop/packages/Spy memcache/memcached-2.5.jar/memcached-2.5.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
