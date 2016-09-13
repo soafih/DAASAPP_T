@@ -48,7 +48,7 @@ public class FetchData {
 			if (queryOutput == null) {
 				
 				resultJson = DatabaseProxy.executeQuery(query);
-				memcachedClient.add(cacheKey, Integer.parseInt(System.getenv("MEMCACHED_EXPIRY")), resultJson);
+				memcachedClient.add(cacheKey, Integer.parseInt(System.getenv("MEMCACHED_EXPIRY")), resultJson.toString());
 
 			}
 
