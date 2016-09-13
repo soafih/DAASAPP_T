@@ -49,15 +49,15 @@ public class FetchData {
 				
 				resultJson = DatabaseProxy.executeQuery(query);
 				memcachedClient.add(cacheKey, Integer.parseInt(System.getenv("MEMCACHED_EXPIRY")), resultJson.toString());
-
+				result = resultJson.toString();
 			}
 
 			else {
 				System.out.println("**********Fetching from Cache*********");
-				resultJson = (JSONObject) queryOutput;
+				result = (String)queryOutput;
 			}
 
-			result = resultJson.toString();
+			
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
