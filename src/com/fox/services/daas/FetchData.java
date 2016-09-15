@@ -87,6 +87,7 @@ public class FetchData {
 			m.appendReplacement(sb, bindVal);
 		}
 		m.appendTail(sb);
+		query=sb.toString();
 		return;
 
 	}
