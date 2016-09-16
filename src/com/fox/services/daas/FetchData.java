@@ -1,6 +1,5 @@
 package com.fox.services.daas;
 
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.ws.rs.Consumes;
@@ -39,25 +38,32 @@ public class FetchData {
 
 			formQuery(info);
 
-			System.out.println("**********Query*********" + query);
-			System.out.println("**********CacheKey*******" + cacheKey);
+			if (DAASAppUtil.getProperty("ResultCache").equals("true")) {
+				System.out.println("Query Execution with result caching" );
+				MemcachedClient memcachedClient = new MemcachedClient(
+						AddrUtil.getAddresses(System.getenv("MEMCACHED_URL")));
+				Object queryOutput = memcachedClient.get(cacheKey);
+				if (queryOutput == null) {
+					System.out.println("Result Cache :"+cacheKey+ "not found" );
+					resultJson = DatabaseProxy.executeQuery(query);
+					memcachedClient.add(cacheKey, Integer.parseInt(DAASAppUtil.getProperty("CacheExpiry")),
+							resultJson.toString());
+					result = resultJson.toString();
+				}
 
-			MemcachedClient memcachedClient = new MemcachedClient(
-					AddrUtil.getAddresses(System.getenv("MEMCACHED_URL")));
-			Object queryOutput = memcachedClient.get(cacheKey);
-			if (queryOutput == null) {
+				else {
+					System.out.println("Result Cache : Fetching results from cache for key "+cacheKey);
+					result = (String) queryOutput;
+				}
+
+				memcachedClient.shutdown();
+			}
+			else
+			{
 				
 				resultJson = DatabaseProxy.executeQuery(query);
-				memcachedClient.add(cacheKey, Integer.parseInt(System.getenv("MEMCACHED_EXPIRY")), resultJson.toString());
 				result = resultJson.toString();
 			}
-
-			else {
-				System.out.println("**********Fetching from Cache*********");
-				result = (String)queryOutput;
-			}
-
-			
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -87,7 +93,7 @@ public class FetchData {
 			m.appendReplacement(sb, bindVal);
 		}
 		m.appendTail(sb);
-		query=sb.toString();
+		query = sb.toString();
 		return;
 
 	}
