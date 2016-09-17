@@ -44,7 +44,7 @@ public class FetchData {
 						AddrUtil.getAddresses(System.getenv("MEMCACHED_URL")));
 				Object queryOutput = memcachedClient.get(cacheKey);
 				if (queryOutput == null) {
-					System.out.println("Result Cache :"+cacheKey+ "not found" );
+					System.out.println("Result Cache :"+cacheKey+ " not found" );
 					resultJson = DatabaseProxy.executeQuery(query);
 					memcachedClient.add(cacheKey, Integer.parseInt(DAASAppUtil.getProperty("CacheExpiry")),
 							resultJson.toString());
