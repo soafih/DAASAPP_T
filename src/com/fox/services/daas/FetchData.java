@@ -10,6 +10,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +27,6 @@ public class FetchData {
 	String cacheKey = DAASAppUtil.getProperty("Application");
 
 	@GET
-	// @Path("/FetchData")
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response processSelect(@Context UriInfo info) throws JSONException {
@@ -42,6 +43,12 @@ public class FetchData {
 				System.out.println("Query Execution with result caching" );
 				MemcachedClient memcachedClient = new MemcachedClient(
 						AddrUtil.getAddresses(System.getenv("MEMCACHED_URL")));
+				
+				if(cacheKey.length() > 40)
+				{
+					cacheKey = DigestUtils.sha1Hex(cacheKey);
+				}
+				
 				Object queryOutput = memcachedClient.get(cacheKey);
 				if (queryOutput == null) {
 					System.out.println("Result Cache :"+cacheKey+ " not found" );
