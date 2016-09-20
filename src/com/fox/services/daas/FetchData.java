@@ -41,6 +41,8 @@ public class FetchData {
 
 			if (DAASAppUtil.getProperty("ResultCache").equals("true")) {
 				System.out.println("Query Execution with result caching" );
+				
+				System.out.println("****Start-Time**** " + System.currentTimeMillis());
 				MemcachedClient memcachedClient = new MemcachedClient(
 						AddrUtil.getAddresses(System.getenv("MEMCACHED_URL")));
 				
@@ -62,6 +64,7 @@ public class FetchData {
 					System.out.println("Result Cache : Fetching results from cache for key "+cacheKey);
 					result = (String) queryOutput;
 				}
+				System.out.println("****End-Time**** " + System.currentTimeMillis());
 
 				memcachedClient.shutdown();
 			}
