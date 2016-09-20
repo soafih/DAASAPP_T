@@ -75,7 +75,7 @@ public class FetchData {
 				double endTime=System.currentTimeMillis();
 				System.out.println("****TimeTaken-Mem**** "+ (endTime-startTime));
 
-				memcachedClient.shutdown();
+				//memcachedClient.shutdown();
 			}
 			else
 			{
