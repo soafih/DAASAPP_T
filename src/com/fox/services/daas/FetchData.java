@@ -25,6 +25,8 @@ public class FetchData {
 
 	String query = DAASAppUtil.getProperty("Query");
 	String cacheKey = DAASAppUtil.getProperty("Application");
+	static MemcachedClient memcachedClient = null;
+	
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -44,8 +46,13 @@ public class FetchData {
 				
 				double startTime=System.currentTimeMillis();
 			//	System.out.println("****Start-Time-TID:**** " + Thread.currentThread().getId() + " Time: "+ System.currentTimeMillis());
-				MemcachedClient memcachedClient = new MemcachedClient(
+				
+				if(memcachedClient == null)
+				{
+				System.out.println("creating the Client Instnace");
+				memcachedClient = new MemcachedClient(
 						AddrUtil.getAddresses(System.getenv("MEMCACHED_URL")));
+				}
 				
 				if(cacheKey.length() > 40)
 				{
