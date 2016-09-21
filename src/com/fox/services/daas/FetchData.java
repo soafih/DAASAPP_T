@@ -62,7 +62,7 @@ public class FetchData {
 					Object queryOutput = memcachedClient.get(cacheKey);
 					if (queryOutput == null) {
 						System.out.println("Result Cache :" + cacheKey + " not found");
-						resultJson = DatabaseProxy.executeQuery(query);
+						resultJson = DatabaseClient.executeQuery(query);
 						memcachedClient.add(cacheKey, Integer.parseInt(DAASAppUtil.getProperty("CacheExpiry")),
 								resultJson.toString());
 						result = resultJson.toString();
@@ -87,7 +87,7 @@ public class FetchData {
 			}
 
 			else if (resultCaching != "true" || memCacheFailure == true) {
-				resultJson = DatabaseProxy.executeQuery(query);
+				resultJson = DatabaseClient.executeQuery(query);
 				result = resultJson.toString();
 			}
 
