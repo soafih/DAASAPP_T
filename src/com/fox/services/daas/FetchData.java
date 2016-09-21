@@ -25,7 +25,7 @@ public class FetchData {
 
 	String query = DAASAppUtil.getProperty("Query");
 	String cacheKey = DAASAppUtil.getProperty("Application");
-	static MemcachedClient memcachedClient = null;
+//	static MemcachedClient memcachedClient = null;
 	
 
 	@GET
@@ -49,7 +49,7 @@ public class FetchData {
 				/*if(memcachedClient == null)
 				{
 				System.out.println("creating the Client Instnace"); */
-				memcachedClient = new MemcachedClient(
+				MemcachedClient	memcachedClient = new MemcachedClient(
 						AddrUtil.getAddresses(System.getenv("MEMCACHED_URL")));
 				//}
 				
