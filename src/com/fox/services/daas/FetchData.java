@@ -45,14 +45,13 @@ public class FetchData {
 				System.out.println("Query Execution with result caching" );
 				
 				double startTime=System.currentTimeMillis();
-			//	System.out.println("****Start-Time-TID:**** " + Thread.currentThread().getId() + " Time: "+ System.currentTimeMillis());
 				
-				if(memcachedClient == null)
+				/*if(memcachedClient == null)
 				{
-				System.out.println("creating the Client Instnace");
+				System.out.println("creating the Client Instnace"); */
 				memcachedClient = new MemcachedClient(
 						AddrUtil.getAddresses(System.getenv("MEMCACHED_URL")));
-				}
+				//}
 				
 				if(cacheKey.length() > 40)
 				{
@@ -72,10 +71,11 @@ public class FetchData {
 					System.out.println("Result Cache : Fetching results from cache for key "+cacheKey);
 					result = (String) queryOutput;
 				}
+				
 				double endTime=System.currentTimeMillis();
 				System.out.println("****TimeTaken-Mem**** "+ (endTime-startTime));
 
-				//memcachedClient.shutdown();
+				memcachedClient.shutdown();
 			}
 			else
 			{
