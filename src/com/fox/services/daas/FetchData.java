@@ -27,6 +27,7 @@ public class FetchData {
 	String query = DAASAppUtil.getProperty("Query");
 	String cacheKey = DAASAppUtil.getProperty("Application");
 	static MemcachedClient memcachedClient = null;
+	static String resultCacheCounter = System.getenv("RESULT_CACHE_COUNTER");
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -36,7 +37,7 @@ public class FetchData {
 		String result = "";
 		int statusCode = 200;
 		JSONObject resultJson = null;
-		boolean memCacheFailure = false;
+		boolean fetchFromDB = true;
 		String resultCaching = DAASAppUtil.getProperty("ResultCache");
 
 		try {
@@ -46,8 +47,6 @@ public class FetchData {
 			if (resultCaching.equals("true")) {
 
 				System.out.println("Query Execution with result caching");
-
-				double startTime = System.currentTimeMillis();
 
 				try {
 					if (memcachedClient == null) {
@@ -72,21 +71,19 @@ public class FetchData {
 						System.out.println("Result Cache : Fetching results from cache for key " + cacheKey);
 						result = (String) queryOutput;
 					}
+					fetchFromDB = false;
 
-					double endTime = System.currentTimeMillis();
-					System.out.println("****TimeTaken-Mem**** " + (endTime - startTime));
 				}
 
 				catch (IOException e) {
 					System.out.println("Memcache : Error while connecting to Memcached");
 					e.printStackTrace();
-					memCacheFailure = true;
 
 				}
-				// memcachedClient.shutdown();
+
 			}
 
-			else if (resultCaching != "true" || memCacheFailure == true) {
+			if (fetchFromDB == true) {
 				resultJson = DatabaseClient.executeQuery(query);
 				result = resultJson.toString();
 			}
@@ -107,6 +104,7 @@ public class FetchData {
 		Pattern patt = Pattern.compile("#[a-zA-Z0-9_]*#");
 		Matcher m = patt.matcher(query);
 		StringBuffer sb = new StringBuffer(query.length());
+		cacheKey = cacheKey + "_" + resultCacheCounter;
 		while (m.find()) {
 			String text = m.group(0);
 			text = text.substring(1, text.length() - 1);
