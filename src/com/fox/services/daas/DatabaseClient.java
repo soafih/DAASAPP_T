@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 import com.fox.services.daas.util.DAASAppUtil;
 
-public final class DatabaseProxy {
+public final class DatabaseClient {
 	public static Connection createConnectionWithDS() throws NamingException, SQLException {
 		
 		Context ctx = new InitialContext();
